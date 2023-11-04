@@ -1,4 +1,4 @@
-def render(gui, canvas):
+def render(gui, canvas, persistant):
     def test_button_callback():
         """
         Switches rooms to home

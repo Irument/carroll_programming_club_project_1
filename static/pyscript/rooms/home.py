@@ -1,4 +1,4 @@
-def render(gui, canvas):
+def render(gui, canvas, persistant):
     canvas.canvas.style.background = '#f9f9f9'
     canvas.circle(250, 250, 100)
     canvas.text('Hello, World!', 250, 450, 'Arial', 25)

@@ -35,4 +35,4 @@ class GUI:
         """
 
         self.canvas.clear()
-        self.rooms[self.room].render(self, self.canvas, self.rooms_persistant[room])
+        self.rooms[self.room].render(self, self.canvas, self.rooms_persistant[self.room])
