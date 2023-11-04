@@ -8,7 +8,7 @@ To add a room to the GUI, It needs to be mentioned in a few places.
 To add an image to use, it needs to be added to the [/static/img](/static/img) directory. Then, it can be called by this link: /static/img/yourFilename.png
 
 # Switching rooms in render function
-To switch the room in the render function, you need to use the `gui` object. You can learn more about the different parameters in the [Adding a room](#adding-a-room) section. You would probably want to put this in some kind of callback. Just running this code in the render function will make the room to switch as soon as it is loaded.
+To switch the room in the render function, you need to use the `gui` object. You can learn more about the different parameters in the [Adding a room](#adding-a-room) section. You would probably want to put this in some kind of callback. Just running this code in the render function will make the room switch as soon as it is loaded.
 
 ```py
 gui.room = 'yourRoom'
