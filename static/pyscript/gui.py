@@ -1,8 +1,5 @@
 import importlib
-
-class PersistantData:
-    def __init__(self):
-        pass
+from js import console
 
 class GUI:
     def __init__(self, canvas):
@@ -23,11 +20,18 @@ class GUI:
             'testRoom'
         ]
         self.rooms = {}
-        self.rooms_persistant = {}
         for room in rooms:
-            self.rooms[room] = importlib.import_module(room)
-            self.rooms_persistant[room] = PersistantData()
+            self.rooms[room] = importlib.import_module(room).Room(self, self.canvas)
     
+    def keyCodeToChar(self, keyCode):
+        """
+        Converts key codes into characters. Returns None if
+        it is a non-printable character
+        """
+
+        if 32 <= keyCode <= 126:
+            return chr(keyCode)
+
     def render_current_room(self):
         """
         Rooms are stored in the rooms folder. They need to have a render function, that this
@@ -35,4 +39,7 @@ class GUI:
         """
 
         self.canvas.clear()
-        self.rooms[self.room].render(self, self.canvas, self.rooms_persistant[self.room])
+        self.rooms[self.room].render()
+        self.canvas.room = self.rooms[self.room]
+        self.canvas.room_name = self.room
+        console.log('Room {} rendered.'.format(self.room))

@@ -1,11 +1,18 @@
 from js import document, addImage
+from pyodide import create_proxy
 import math
 
 class Canvas:
     def __init__(self, canvas):
         self.canvas = document.getElementById(canvas)
         self.canvas.onmousedown = self.on_mouse_down
+        document.body.addEventListener('keydown', create_proxy(self.on_key_down), False)
+        document.body.addEventListener('keyup', create_proxy(self.on_key_up), False)
         self.buttons = []
+
+        # Set by gui object
+        self.room = None
+        self.room_name = None
     
     def ctx(self):
         """
@@ -40,7 +47,7 @@ class Canvas:
 
         ctx = self.ctx()
         ctx.font = '{}px {}'.format(fontsize, font)
-        ctx.fillText(text, x, y)
+        ctx.fillText(str(text), x, y)
 
     def rect(self, x, y, width, height):
         """
@@ -87,3 +94,17 @@ class Canvas:
         for button in self.buttons:
             if x >= button['x'] and x <= button['x'] + button['w'] and y >= button['y'] and y <= button['y'] + button['h']:
                 button['callback']()
+    
+    def on_key_down(self, e):
+        """
+        Handles for key presses
+        """
+
+        self.room.keyDown(e.keyCode)
+
+    def on_key_up(self, e):
+        """
+        Handles for key releases
+        """
+
+        self.room.keyUp(e.keyCode)
