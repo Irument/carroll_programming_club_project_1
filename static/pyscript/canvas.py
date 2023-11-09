@@ -1,4 +1,4 @@
-from js import document, addImage
+from js import document, addImage, console
 from pyodide import create_proxy
 import math
 
@@ -9,7 +9,7 @@ class Canvas:
         document.body.addEventListener('keydown', create_proxy(self.on_key_down), False)
         document.body.addEventListener('keyup', create_proxy(self.on_key_up), False)
         self.buttons = []
-
+        self.keys_pressed = []
         # Set by gui object
         self.room = None
         self.room_name = None
@@ -100,11 +100,42 @@ class Canvas:
         Handles for key presses
         """
 
-        self.room.keyDown(e.keyCode)
+        if e.key in self.keys_pressed:
+            return
+
+        if 65 <= e.keyCode <= 90 and len(e.key) == 1:
+            upper = e.shiftKey
+            if e.getModifierState('CapsLock'):
+                upper = not upper
+            if upper:
+                key = e.key.upper()
+            else:
+                key = e.key.lower()
+        else:
+            key = e.key
+        self.keys_pressed.append(e.key)
+        console.log(key)
+        self.room.keyDown(key)
 
     def on_key_up(self, e):
         """
         Handles for key releases
         """
 
-        self.room.keyUp(e.keyCode)
+        if len(e.key) == 1:
+            upper = e.shiftKey
+            if e.getModifierState('CapsLock'):
+                upper = not upper
+            if upper:
+                key = e.key.upper()
+            else:
+                key = e.key.lower()
+        else:
+            key = e.key
+        
+        try:
+            self.keys_pressed.remove(e.key)
+        except ValueError:
+            pass
+
+        self.room.keyUp(key)

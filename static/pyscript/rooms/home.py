@@ -16,10 +16,7 @@ class Room(rooms.BaseRoom):
 
         self.canvas.add_button(10, 10, 200, 100, '/static/img/test_button.png', test_button_callback)
     
-    def keyDown(self, keyCode):
-        key = self.gui.keyCodeToChar(keyCode)
-        if key == None:
-            key = 'non-printable'
+    def keyDown(self, key):
         
         self.reRender()
-        self.canvas.text('{} ({})'.format(key, keyCode), 250, 250, 'Arial', 10)
+        self.canvas.text('{}'.format(key), 250, 250, 'Arial', 10)

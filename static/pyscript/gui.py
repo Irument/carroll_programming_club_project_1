@@ -22,15 +22,6 @@ class GUI:
         self.rooms = {}
         for room in rooms:
             self.rooms[room] = importlib.import_module(room).Room(self, self.canvas)
-    
-    def keyCodeToChar(self, keyCode):
-        """
-        Converts key codes into characters. Returns None if
-        it is a non-printable character
-        """
-
-        if 32 <= keyCode <= 126:
-            return chr(keyCode)
 
     def render_current_room(self):
         """
