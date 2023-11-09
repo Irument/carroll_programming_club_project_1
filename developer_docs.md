@@ -16,7 +16,7 @@ self.gui.render_current_room()
 ```
 
 # Handling key presses in a room
-The keyDown function is called when a key is pressed, and the keyUp function is called when a key is released. The keyCode parameter for both functions is the ASCII code for the key pressed. There is a function to convert these key codes to characters. The function `keyCodeToChar` is defined in the [gui class](/static/pyscript/gui.py). If the character is non-printable, you can still catch for it by using an if statement. You can find the key code for a non-printable character [here](https://www.ascii-code.com/). The first column would be the key code. Characters always show up in uppercase even if caps lock is on or shift is pressed/not pressed. Detecting this is not really a big deal however. This will probably be fixed later. This is also the case when using shift to use special characters.
+The keyDown function is called when a key is pressed, and the keyUp function is called when a key is released. The function has one parameter called `key`, that is the printable form of the key that was pressed. You can test around with keys that are not printable like enter or shift, but keys like letters will just show that letter.
 
 # print function
 Instead of using `print`, import console from js, and use Javascript's logging tools. print works, however it is mixed with pyodide's stuff and is not really good.
