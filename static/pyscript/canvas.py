@@ -1,6 +1,7 @@
-from js import document, addImage, console
+from js import document, loadImage, console
 from pyodide import create_proxy
 import math
+import json
 
 class Canvas:
     def __init__(self, canvas):
@@ -13,6 +14,8 @@ class Canvas:
         # Set by gui object
         self.room = None
         self.room_name = None
+        self.images_to_load = {}
+        self.images = []
     
     def ctx(self):
         """
@@ -40,14 +43,21 @@ class Canvas:
         ctx.arc(x, y, r, 0, 2 * math.pi)
         ctx.stroke()
 
-    def text(self, text, x, y, font, fontsize):
+    def text(self, text, x, y, font, fontsize, center=True, fillStyle='black'):
         """
-        Draws text
+        Draws text. Newlines work.
         """
 
         ctx = self.ctx()
         ctx.font = '{}px {}'.format(fontsize, font)
-        ctx.fillText(str(text), x, y)
+        ctx.fillStyle = fillStyle
+        if center:
+            ctx.textAlign = 'center'
+        lines = text.split('\n')
+        z = 0
+        for line in lines:
+            ctx.fillText(str(line), x, y+(z*fontsize))
+            z += 1
 
     def rect(self, x, y, width, height):
         """
@@ -58,21 +68,26 @@ class Canvas:
         ctx.rect(x, y, width, height)
         ctx.stroke()
     
-    def add_image(self, x, y, link):
+    def prepare_image(self, id, link):
         """
-        Adds an image to the canvas by link
+        Adds the image to load
+        on the load_images function
+        """
+        self.images_to_load[id] = link
+
+    def add_image(self, x, y, id):
+        """
+        Adds an image to the canvas by id
         """
 
-        ctx = self.ctx()
-        addImage(ctx, x, y, link)
+        self.images.append({'x': x, 'y': y, 'id': id})
 
-    def add_button(self, x, y, w, h, link, callback):
+    def add_button(self, x, y, w, h, id, callback):
         """
         Adds an image to the canvas that acts as a button
         """
 
-        ctx = self.ctx()
-        addImage(ctx, x, y, link)
+        self.images.append({'x': x, 'y': y, 'id': id})
         self.buttons.append({
             'x': x,
             'y': y,
@@ -80,6 +95,19 @@ class Canvas:
             'h': h,
             'callback': callback
         })
+
+    def load_images(self):
+        """
+        Loads prepared images
+        """
+
+        ctx = self.ctx()
+        for id in self.images_to_load:
+            link = self.images_to_load[id]
+            loadImage(ctx, id, link, json.dumps(self.images))
+        
+        self.images = []
+        self.images_to_load = {}
 
     def on_mouse_down(self, e):
         """
@@ -114,7 +142,6 @@ class Canvas:
         else:
             key = e.key
         self.keys_pressed.append(e.key)
-        console.log(key)
         self.room.keyDown(key)
 
     def on_key_up(self, e):

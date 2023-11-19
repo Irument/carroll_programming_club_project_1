@@ -1,8 +1,17 @@
 import importlib
 from js import console
 
+class SharedData:
+    """
+    Blank object that all rooms would have access to. This makes it more organized to
+    share data between rooms
+    """
+
+    def __init__(self):
+        pass
+
 class GUI:
-    def __init__(self, canvas):
+    def __init__(self, canvas, socketio):
         """
         The GUI is in rooms. It will know what to render based on
         what room it is in. Rooms are only rendered again if something needs to be changed.
@@ -15,13 +24,15 @@ class GUI:
         """
         self.room = 'home'
         self.canvas = canvas
+        self.socketio = socketio
+        self.shared = SharedData()
         rooms = [
             'home',
-            'testRoom'
+            'scores'
         ]
         self.rooms = {}
         for room in rooms:
-            self.rooms[room] = importlib.import_module(room).Room(self, self.canvas)
+            self.rooms[room] = importlib.import_module(room).Room(self, self.canvas, self.socketio)
 
     def render_current_room(self):
         """

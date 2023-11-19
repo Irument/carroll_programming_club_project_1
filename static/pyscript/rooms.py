@@ -1,12 +1,14 @@
 class BaseRoom:
-    def __init__(self, gui, canvas):
+    def __init__(self, gui, canvas, socketio):
         """
         gui is an object that is defined in /static/pyscript/gui.py. It handles rooms.
         canvas is an object that is defined in /static/pyscript/canvas.py and it has functions for interacting with the canvas.
+        socketio is an object that is defined in /static/pyscript/socketio.py. It handles communication with the server.
         """
 
         self.gui = gui
         self.canvas = canvas
+        self.socketio = socketio
         self.room_specific_init()
 
     def room_specific_init(self):
