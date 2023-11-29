@@ -12,6 +12,12 @@ def get_random_string(length):
     return final
 
 class AnswerBoxCallbacks:
+    """
+    Callbacks for every answer box. Knows what the correct answer box is, and
+    goes to the next question if it is correct. If not, show text box that says
+    "Incorrect!", count it as wrong and don't move to the next question.
+    """
+
     def __init__(self, room):
         self.room = room
         self.correct_answer = None
@@ -43,6 +49,12 @@ class AnswerBoxCallbacks:
         self.check_wrong('bottomright')
     
     def add_answers(self):
+        """
+        Gets a random box and chooses it as the correct one. It puts the correct
+        answer for that box, and generates random offsets from the correct answer
+        for the other incorrect answers.
+        """
+
         boxes = {'topleft': [125, 312], 'topright': [375, 312], 'bottomleft': [125, 437], 'bottomright': [375, 437]}
         offsets = random.sample([i for i in range(-6, 7) if i != 0], 4)
         x = 0
