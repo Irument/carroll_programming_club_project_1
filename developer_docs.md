@@ -29,3 +29,9 @@ The room object has access to a blank object that is shared between all rooms. U
 ```py
 self.gui.shared
 ```
+
+# Creating a quiz
+Run the create_quiz.py file, and it will guide you through making a quiz, and add it to the DB. The server does not have to be restarted and the client does not have to be reloaded to use a new quiz.
+
+# Deleting a quiz
+Run the delete_quiz.py file with the first argument being the quiz id.

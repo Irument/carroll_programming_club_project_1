@@ -14,12 +14,14 @@
           # Rooms
           - /static/pyscript/rooms/home.py
           - /static/pyscript/rooms/scores.py
+          - /static/pyscript/rooms/waiting_for_quiz.py
       </py-env>
     </head>
 
   <body>
     <div style="width: 100%; text-align: center">
-        <canvas id="canvas" width="500" height="500" style="display: inline"></canvas>
+        <canvas id="canvas" width="500" height="500" style="display: inline"></canvas><br/><br/>
+        <input type="text" placeholder="Quiz ID" id="quiz_id"><button id="quiz_id_start">Start</button>
     </div>
     <div id="canvasImages" style="display: none"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>

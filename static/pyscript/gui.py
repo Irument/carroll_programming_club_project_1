@@ -22,13 +22,14 @@ class GUI:
         here under the rooms array below. There also cannot be another module with the same
         name as a room. They will conflict.
         """
-        self.room = 'home'
+        self.room = 'waiting_for_quiz'
         self.canvas = canvas
         self.socketio = socketio
         self.shared = SharedData()
         rooms = [
             'home',
-            'scores'
+            'scores',
+            'waiting_for_quiz'
         ]
         self.rooms = {}
         for room in rooms:

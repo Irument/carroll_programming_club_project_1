@@ -1,6 +1,16 @@
 from js import io
 from functools import wraps
 from pyodide import create_proxy
+import string
+import random
+import json
+
+def get_random_string(length):
+    choice = string.ascii_uppercase + string.ascii_lowercase + string.digits
+    final = ''
+    for x in range(length):
+        final += random.choice(choice)
+    return final
 
 class SocketIO:
     """
@@ -12,6 +22,7 @@ class SocketIO:
         Connects to server
         """
 
+        self.client_id = get_random_string(10)
         self.socket = io()
     
     def on(self, event, **kwargs):
@@ -32,4 +43,5 @@ class SocketIO:
         Send data to server
         """
 
+        data = json.dumps(data)
         create_proxy(self.socket.emit(event, data))
