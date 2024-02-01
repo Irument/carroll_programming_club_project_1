@@ -118,10 +118,10 @@ class Room(rooms.BaseRoom):
         """
 
         self.canvas.prepare_image('answer_box', '/static/img/answer_box.png')
-        self.canvas.add_button(0, self.canvas.canvas.height/2, 250, 125, 'answer_box', self.answer_box_callbacks.topleft)
-        self.canvas.add_button(250, self.canvas.canvas.height/2, 250, 125, 'answer_box', self.answer_box_callbacks.topright)
-        self.canvas.add_button(0, self.canvas.canvas.height/2+125, 250, 125, 'answer_box', self.answer_box_callbacks.bottomleft)
-        self.canvas.add_button(250, self.canvas.canvas.height/2+125, 250, 125, 'answer_box', self.answer_box_callbacks.bottomright)
+        self.canvas.add_button(0, self.canvas.canvas.height/2, self.canvas.canvas.width/2, self.canvas.canvas.height/4, 'answer_box', self.answer_box_callbacks.topleft)
+        self.canvas.add_button(self.canvas.canvas.width/2, self.canvas.canvas.height/2, self.canvas.canvas.width/2, self.canvas.canvas.height/4, 'answer_box', self.answer_box_callbacks.topright)
+        self.canvas.add_button(0, self.canvas.canvas.height/2+(self.canvas.canvas.height/4), self.canvas.canvas.width/2, self.canvas.canvas.height/4, 'answer_box', self.answer_box_callbacks.bottomleft)
+        self.canvas.add_button(self.canvas.canvas.width/2, self.canvas.canvas.height/2+(self.canvas.canvas.height/4), self.canvas.canvas.width/2, self.canvas.canvas.height/4, 'answer_box', self.answer_box_callbacks.bottomright)
     
     def register_socketio_events(self):
         @self.socketio.on('answer_check_{}'.format(self.socketio.client_id))

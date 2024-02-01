@@ -75,19 +75,22 @@ class Canvas:
         """
         self.images_to_load[id] = link
 
-    def add_image(self, x, y, id):
+    def add_image(self, x, y, id, w=None, h=None):
         """
         Adds an image to the canvas by id
         """
 
-        self.images.append({'x': x, 'y': y, 'id': id})
+        if not w == None and not h == None:
+            self.images.append({'x': x, 'y': y, 'id': id, 'w': w, 'h': h})
+        else:
+            self.images.append({'x': x, 'y': y, 'id': id, 'w': None, 'h': None})
 
     def add_button(self, x, y, w, h, id, callback):
         """
         Adds an image to the canvas that acts as a button
         """
 
-        self.images.append({'x': x, 'y': y, 'id': id})
+        self.images.append({'x': x, 'y': y, 'id': id, 'w': w, 'h': h})
         self.buttons.append({
             'x': x,
             'y': y,

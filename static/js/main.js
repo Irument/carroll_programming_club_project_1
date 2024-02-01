@@ -9,7 +9,11 @@ function loadImage(ctx, id, link, image_locations) {
         imageLoaded = true;
         for (let i = 0; i < image_locations.length; i++) {
             if (image_locations[i].id == id) {
-                ctx.drawImage(img, image_locations[i].x, image_locations[i].y);
+                if (image_locations[i].w == null && image_locations[i].h == null) {
+                    ctx.drawImage(img, image_locations[i].x, image_locations[i].y);
+                } else {
+                    ctx.drawImage(img, image_locations[i].x, image_locations[i].y, image_locations[i].w, image_locations[i].h);
+                }
             }
         }
     }
