@@ -1,4 +1,4 @@
-from js import document, loadImage, console
+from js import document, console
 from pyodide import create_proxy
 import math
 import json
@@ -14,9 +14,7 @@ class Canvas:
         # Set by gui object
         self.room = None
         self.room_name = None
-        self.images_to_load = {}
-        self.images = []
-    
+
     def ctx(self):
         """
         Gets context
@@ -31,7 +29,8 @@ class Canvas:
 
         self.buttons = []
         ctx = self.ctx()
-        ctx.clearRect(0, 0, self.canvas.width, self.canvas.height)
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, self.canvas.width, self.canvas.height)
 
     def circle(self, x, y, r):
         """
@@ -67,30 +66,24 @@ class Canvas:
         ctx = self.ctx()
         ctx.rect(x, y, width, height)
         ctx.stroke()
-    
-    def prepare_image(self, id, link):
-        """
-        Adds the image to load
-        on the load_images function
-        """
-        self.images_to_load[id] = link
 
-    def add_image(self, x, y, id, w=None, h=None):
+    def add_image(self, x, y, link, w=None, h=None):
         """
-        Adds an image to the canvas by id
+        Adds an image to the canvas by link
         """
 
+        ctx = self.ctx()
+        
         if not w == None and not h == None:
-            self.images.append({'x': x, 'y': y, 'id': id, 'w': w, 'h': h})
+            ctx.drawImage(document.getElementById(link), x, y, w, h)
         else:
-            self.images.append({'x': x, 'y': y, 'id': id, 'w': None, 'h': None})
+            ctx.drawImage(document.getElementById(link), x, y)
 
-    def add_button(self, x, y, w, h, id, callback):
+    def add_button(self, x, y, w, h, link, callback):
         """
         Adds an image to the canvas that acts as a button
         """
 
-        self.images.append({'x': x, 'y': y, 'id': id, 'w': w, 'h': h})
         self.buttons.append({
             'x': x,
             'y': y,
@@ -99,18 +92,8 @@ class Canvas:
             'callback': callback
         })
 
-    def load_images(self):
-        """
-        Loads prepared images
-        """
-
         ctx = self.ctx()
-        for id in self.images_to_load:
-            link = self.images_to_load[id]
-            loadImage(ctx, id, link, json.dumps(self.images))
-        
-        self.images = []
-        self.images_to_load = {}
+        ctx.drawImage(document.getElementById(link), x, y, w, h)
 
     def on_mouse_down(self, e):
         """

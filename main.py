@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify
 from flask_socketio import SocketIO
 import study as study_mod
 import json
+import os
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -9,7 +10,7 @@ study = study_mod.Study('main.db')
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html', imgs=os.listdir('static/img'))
 
 @socketio.on('get_quiz')
 def get_quiz(data):

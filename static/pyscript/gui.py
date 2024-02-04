@@ -1,5 +1,6 @@
 import importlib
-from js import console
+from js import console, document
+import time
 
 class SharedData:
     """
@@ -28,6 +29,7 @@ class GUI:
         self.shared = SharedData()
         rooms = [
             'home',
+            'quiz',
             'scores',
             'waiting_for_quiz'
         ]

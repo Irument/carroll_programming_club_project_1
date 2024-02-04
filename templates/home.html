@@ -13,6 +13,7 @@
 
           # Rooms
           - /static/pyscript/rooms/home.py
+          - /static/pyscript/rooms/quiz.py
           - /static/pyscript/rooms/scores.py
           - /static/pyscript/rooms/waiting_for_quiz.py
       </py-env>
@@ -22,9 +23,13 @@
     <div style="width: 100%; text-align: center">
         <canvas id="canvas" width="500" height="500" style="display: inline"></canvas><br/><br/>
         <input type="text" placeholder="Quiz ID" id="quiz_id"><button id="quiz_id_start">Start</button>
-      <a href="game.html"><button style="margin:0 auto; display: flex">Coffee Clicker Game</button></a>
     </div>
-    <div id="canvasImages" style="display: none"></div>
+    <div id="canvasImages" style="display: none">
+      <!--Loads all images-->
+      {% for img in imgs %}
+      <img src="/static/img/{{ img }}" id="/static/img/{{ img }}">
+      {% endfor %}
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
     <script src="/static/js/main.js"></script>
     <py-script src="/static/pyscript/main_pyscript.py"></py-script>
