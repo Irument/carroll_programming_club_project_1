@@ -7,9 +7,6 @@ To add a room to the GUI, It needs to be mentioned in a few places.
 # Adding an image
 To add an image to use, it needs to be added to the [/static/img](/static/img) directory. Then, it can be called by this link: /static/img/yourFilename.png
 
-# Using an image
-To use an image in a room, you have to run the function self.canvas.prepare_image for each image you are going to use that image. The function has 2 parameters, id and link. The id would be a name for the image, that you would use in a function like add_image or add_button to specify the image, and the link would just be the link. Then on the end of the render function, run self.canvas.loadImages().
-
 # Switching rooms in render function
 To switch the room in the render function, you need to use the `gui` object. You can learn more about the different parameters in the [Adding a room](#adding-a-room) section. You would probably want to put this in some kind of callback. Just running this code in the render function will make the room switch as soon as it is loaded.
 
