@@ -29,7 +29,7 @@ class Canvas:
 
         self.buttons = []
         ctx = self.ctx()
-        ctx.fillStyle = 'white'
+        ctx.fillStyle = '#eaeaea'
         ctx.fillRect(0, 0, self.canvas.width, self.canvas.height)
 
     def circle(self, x, y, r):
