@@ -33,4 +33,4 @@ Run the create_quiz.py file, and it will guide you through making a quiz, and ad
 Run the delete_quiz.py file with the first argument being the quiz id.
 
 # py_exec
-There is a Javascript function for dynamically running python code. I had to make this function myself since it was not already a feature in pyscript. It is just the python exec function, but it is in javascript and can be ran with the console.
+There is a Javascript function for dynamically running python code. I had to make this function myself since it was not already a feature in pyscript. It is just the python exec function, but it is in javascript and can be ran with the console. This code is ran at the main file, so you have access to all global variables in there.
