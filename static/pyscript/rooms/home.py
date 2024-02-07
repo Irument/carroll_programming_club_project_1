@@ -6,11 +6,9 @@ class Room(rooms.BaseRoom):
     
     def click(self):
         self.gui.shared.clicks += 1
-        self.gui.render_current_room()
     
     def answer_questions(self):
         self.gui.room = 'quiz'
-        self.gui.render_current_room()
 
     def render(self):
         self.canvas.text(str(self.gui.shared.clicks), self.canvas.canvas.width/2, self.canvas.canvas.height/3, 'Arial', 30)

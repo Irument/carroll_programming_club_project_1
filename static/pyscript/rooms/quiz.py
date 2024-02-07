@@ -15,16 +15,17 @@ class AnswerBoxCallbacks:
         self.room = room
         self.current_question_wrong = False
         self.correct_answer = None
+        self.box_order = ['topleft', 'topright', 'bottomleft', 'bottomright']
+        self.offsets = random.sample([i for i in range(-6, 7) if i != 0], 4)
     
     def correct(self):
         if not self.current_question_wrong:
             self.room.gui.shared.correct_questions += 1
         self.current_question_wrong = False
-        self.room.gui.render_current_room()
+        self.room.next_question()
 
     def wrong(self):
         self.current_question_wrong = True
-        self.room.canvas.text('Incorrect!', self.room.canvas.canvas.width/2, 60, 'Arial', 20, fillStyle='red')
 
     def check_wrong(self, box):
         if self.correct_answer == box:
@@ -60,22 +61,19 @@ class AnswerBoxCallbacks:
             'bottomright': [right, bottom]
         }
 
-        box_order = ['topleft', 'topright', 'bottomleft', 'bottomright']
-        random.shuffle(box_order)
-        self.correct_answer = box_order[0]
+        self.correct_answer = self.box_order[0]
         if self.room.questions[self.room.current_question]['choices'] == []:
-            offsets = random.sample([i for i in range(-6, 7) if i != 0], 4)
             x = 0
-            for box in box_order:
+            for box in self.box_order:
                 xy = boxes[box]
                 if x == 0:
                     self.room.canvas.text('{}'.format(self.room.questions[self.room.current_question]['answer']), xy[0], xy[1], 'Arial', 20)
                 else:
-                    self.room.canvas.text('{}'.format(int(self.room.questions[self.room.current_question]['answer'])+offsets[x-1]), xy[0], xy[1], 'Arial', 20)
+                    self.room.canvas.text('{}'.format(int(self.room.questions[self.room.current_question]['answer'])+self.offsets[x-1]), xy[0], xy[1], 'Arial', 20)
                 x += 1
         else:
             x = 0
-            for box in box_order:
+            for box in self.box_order:
                 xy = boxes[box]
                 if x == 0:
                     self.room.canvas.text('{}'.format(self.room.questions[self.room.current_question]['answer']), xy[0], xy[1], 'Arial', 20)
@@ -92,22 +90,29 @@ class Room(rooms.BaseRoom):
         self.gui.shared.correct_questions = 0
         self.gui.shared.quiz_name = None
 
-    def render(self):
-        self.canvas.canvas.style.background = '#f9f9f9'
+    def next_question(self):
         if self.questions == []:
             self.socketio.emit('get_quiz', {'client_id': self.socketio.client_id, 'quiz_id': self.gui.shared.quiz_id})
         else:
             self.current_question += 1
+            random.shuffle(self.answer_box_callbacks.box_order)
+            self.answer_box_callbacks.offsets = random.sample([i for i in range(-6, 7) if i != 0], 4)
             if len(self.questions)-1 < self.current_question: # Check for end of quiz
                 self.gui.room = 'scores'
-                self.gui.render_current_room()
                 return
-            
-            self.canvas.text(self.questions[self.current_question]['question'], self.canvas.canvas.width/2, self.canvas.canvas.height/3, 'Arial', 25)
-            self.canvas.text('Question {} of {}'.format(self.current_question+1, len(self.questions)), 0, 0, 'Arial', 10)
+    
+    def render_start(self):
+        self.next_question()
+
+    def render(self):
+        self.canvas.canvas.style.background = '#f9f9f9'
         self.create_question_boxes()
         if not self.questions == []:
+            self.canvas.text(self.questions[self.current_question]['question'], self.canvas.canvas.width/2, self.canvas.canvas.height/3, 'Arial', 25)
+            self.canvas.text('Question {} of {}'.format(self.current_question+1, len(self.questions)), 0, 0, 'Arial', 10)
             self.answer_box_callbacks.add_answers()
+            if self.answer_box_callbacks.current_question_wrong:
+                self.canvas.text('Incorrect!', self.canvas.canvas.width/2, 60, 'Arial', 20, fillStyle='red')
 
     
     def create_question_boxes(self):
@@ -126,10 +131,8 @@ class Room(rooms.BaseRoom):
         def answer_check_response(result):
             if result:
                 self.gui.room = 'correct'
-                self.gui.render_current_room()
             else:
                 self.gui.room = 'wrong'
-                self.gui.render_current_room()
         
         @self.socketio.on('get_quiz_{}'.format(self.socketio.client_id))
         def get_quiz_response(quiz):

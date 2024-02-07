@@ -12,7 +12,6 @@ To switch the room in the render function, you need to use the `gui` object. You
 
 ```py
 self.gui.room = 'yourRoom'
-self.gui.render_current_room()
 ```
 
 # Handling key presses in a room

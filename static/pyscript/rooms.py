@@ -20,9 +20,16 @@ class BaseRoom:
 
         pass
 
+    def render_start(self):
+        """
+        Ran when the room is switched
+        """
+
+        pass
+
     def render(self):
         """
-        Do canvas stuff here
+        Do canvas stuff here. Ran 60 times a second
         """
 
         pass

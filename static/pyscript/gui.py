@@ -1,5 +1,6 @@
 import importlib
-from js import console, document
+from js import console, document, window
+from pyodide import create_proxy
 import time
 
 class SharedData:
@@ -37,14 +38,25 @@ class GUI:
         for room in rooms:
             self.rooms[room] = importlib.import_module(room).Room(self, self.canvas, self.socketio)
 
+    def render_recursive(self, s):
+        self.canvas.clear()
+        self.rooms[self.room].render()
+        if self.canvas.room_name == self.room:
+            window.requestAnimationFrame(create_proxy(self.render_recursive))
+        else: # Stop the animation if the room changes.
+            self.room_switched = False
+            self.render_current_room()
+
     def render_current_room(self):
         """
         Rooms are stored in the rooms folder. They need to have a render function, that this
         function calls.
         """
 
-        self.canvas.clear()
-        self.rooms[self.room].render()
+        console.log('Switching to room {}'.format(self.room))
+
         self.canvas.room = self.rooms[self.room]
         self.canvas.room_name = self.room
-        console.log('Room {} rendered.'.format(self.room))
+        self.canvas.clear()
+        self.rooms[self.room].render_start()
+        window.requestAnimationFrame(create_proxy(self.render_recursive))

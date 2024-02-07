@@ -5,13 +5,11 @@ class Room(rooms.BaseRoom):
         self.gui.room = 'quiz'
         self.gui.shared.correct_questions = 0
         self.gui.rooms['quiz'].current_question = -1 # When home is rendered, it adds 1 to the current_question. 0 would skip the first question.
-        self.gui.render_current_room()
     
     def back(self):
         self.gui.room = 'home'
         self.gui.shared.correct_questions = 0
         self.gui.rooms['quiz'].current_question = -1
-        self.gui.render_current_room()
 
     def render(self):
         self.canvas.text('Score', self.canvas.canvas.width/2, 150, 'Arial', 30)
