@@ -42,7 +42,6 @@ class Room(rooms.BaseRoom):
                 self.gui.rooms['quiz'].current_question = 0
                 self.gui.shared.correct_questions = 0
                 self.gui.room = 'home'
-                self.gui.render_current_room()
             else:
                 if self.gui.room == 'waiting_for_quiz':
                     self.canvas.text('Invalid quiz ID', self.canvas.canvas.width/2, self.canvas.canvas.height/3*2, 'Arial', 20, fillStyle='red')

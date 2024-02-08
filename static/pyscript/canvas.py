@@ -11,9 +11,12 @@ class Canvas:
         document.body.addEventListener('keyup', create_proxy(self.on_key_up), False)
         self.buttons = []
         self.keys_pressed = []
+
         # Set by gui object
         self.room = None
         self.room_name = None
+
+        self.debug = False
 
     def ctx(self):
         """
@@ -52,6 +55,10 @@ class Canvas:
         ctx.fillStyle = fillStyle
         if center:
             ctx.textAlign = 'center'
+            ctx.textBaseline = 'middle'
+        else:
+            ctx.textAlign = 'left'
+            ctx.textBaseline = 'top'
         lines = text.split('\n')
         z = 0
         for line in lines:
@@ -127,8 +134,13 @@ class Canvas:
                 key = e.key.lower()
         else:
             key = e.key
-        self.keys_pressed.append(e.key)
-        self.room.keyDown(key)
+        
+        if key == 'F1':
+            # Toggle debug overlay
+            self.debug = not self.debug
+        else:
+            self.keys_pressed.append(e.key)
+            self.room.keyDown(key)
 
     def on_key_up(self, e):
         """

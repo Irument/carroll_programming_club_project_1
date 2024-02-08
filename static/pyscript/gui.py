@@ -27,6 +27,7 @@ class GUI:
         self.room = 'waiting_for_quiz'
         self.canvas = canvas
         self.socketio = socketio
+        self.last_s = 0
         self.shared = SharedData()
         rooms = [
             'home',
@@ -38,14 +39,27 @@ class GUI:
         for room in rooms:
             self.rooms[room] = importlib.import_module(room).Room(self, self.canvas, self.socketio)
 
+    def render_debug_overlay(self, fps):
+        debug_text = 'FPS: {}\n'.format(fps)
+        debug_text += 'Room: {}'.format(self.room)
+        self.canvas.text(debug_text, 0, 0, 'Arial', 20, center=False)
+
     def render_recursive(self, s):
         self.canvas.clear()
         self.rooms[self.room].render()
         if self.canvas.room_name == self.room:
             window.requestAnimationFrame(create_proxy(self.render_recursive))
+            if self.canvas.debug:
+                try:
+                    fps = round(1/((s - self.last_s)/1000))
+                except ZeroDivisionError:
+                    console.log(str([s, self.last_s]))
+                    fps = 'Infinite'
+                self.render_debug_overlay(fps)
         else: # Stop the animation if the room changes.
             self.room_switched = False
             self.render_current_room()
+        self.last_s = s
 
     def render_current_room(self):
         """
