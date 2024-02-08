@@ -57,7 +57,6 @@ class GUI:
                 try:
                     fps = round(1/((s - self.last_s)/1000))
                 except ZeroDivisionError:
-                    console.log(str([s, self.last_s]))
                     fps = 'Infinite'
                 self.render_debug_overlay(fps)
         else: # Stop the animation if the room changes.
