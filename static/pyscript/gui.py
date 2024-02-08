@@ -41,7 +41,11 @@ class GUI:
 
     def render_debug_overlay(self, fps):
         debug_text = 'FPS: {}\n'.format(fps)
-        debug_text += 'Room: {}'.format(self.room)
+        debug_text += 'Room: {}\n'.format(self.room)
+        debug_text += '\nShared:\n'
+        for key in vars(self.shared):
+            value = vars(self.shared)[key]
+            debug_text += '{} = {}\n'.format(key, value)
         self.canvas.text(debug_text, 0, 0, 'Arial', 20, center=False)
 
     def render_recursive(self, s):
