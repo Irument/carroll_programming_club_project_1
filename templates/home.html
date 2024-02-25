@@ -2,6 +2,7 @@
 <html>
     <head>
       <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+      <link rel="stylesheet" href="/static/css/main.css" />
       <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <py-env>
@@ -22,7 +23,9 @@
   <body>
     <div style="width: 100%; text-align: center">
         <canvas id="canvas" width="750" height="750" style="display: inline"></canvas><br/><br/>
-        <input type="text" placeholder="Quiz ID" id="quiz_id"><button id="quiz_id_start">Start</button>
+        <div class="canvas_overlay" id="quiz_id_container">
+          <input type="text" placeholder="Quiz ID" id="quiz_id"><button class="button" id="quiz_id_start">Start</button>
+        </div>
     </div>
     <div id="canvasImages" style="display: none">
       <!--Loads all images-->

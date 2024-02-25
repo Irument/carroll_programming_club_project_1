@@ -37,6 +37,7 @@ class Room(rooms.BaseRoom):
 
             data = json.loads(data)
             if data['exists']:
+                document.getElementById('quiz_id_container').setAttribute('style', 'display: none;')
                 self.gui.shared.quiz_id = data['quiz_id']
                 self.gui.rooms['quiz'].questions = []
                 self.gui.rooms['quiz'].current_question = 0

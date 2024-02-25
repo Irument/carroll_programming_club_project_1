@@ -49,6 +49,9 @@ class GUI:
         self.canvas.text(debug_text, 0, 0, 'Arial', 20, center=False)
 
     def render_recursive(self, s):
+        self.canvas.canvas.width = window.innerWidth
+        self.canvas.canvas.height = window.innerHeight
+
         self.canvas.clear()
         self.rooms[self.room].render()
         if self.canvas.room_name == self.room:

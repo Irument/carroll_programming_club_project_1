@@ -1,0 +1,17 @@
+.canvas_overlay {
+    position: absolute;
+    bottom: 25%;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.button {
+    padding: 2px 5px;
+    background-color: #4955ff;
+    color: white;
+    margin: 5px;
+}
+
+.button:hover {
+    background-color: #3b45d6
+}
